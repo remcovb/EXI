@@ -17,11 +17,12 @@
   "author": "GitHub",
   "license": "CC0-1.0",
   "devDependencies": {
-    "electron": "^3.0.4",
+    "electron": "^3.0.10",
     "electron-rebuild": "^1.8.2"
   },
   "dependencies": {
     "johnny-five": "^1.0.0",
+    "serialport": "^7.1.0",
     "tone": "^0.12.80"
   }
 }
