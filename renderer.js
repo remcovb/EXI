@@ -732,24 +732,24 @@ Tone.Buffer.on('load', () => {
 
 
     chooseInstrument = () => {
+      button1.on("press", function () {
+        console.log("Button 2");
+        harp.toMaster();
+        harp.triggerAttack("B3");
+      });
+
+
       button2.on("press", function () {
         console.log("Button 2");
         harp.toMaster();
         harp.triggerAttack("B3");
-      }
+      });
 
-
-    /* button2.on("press", function () {
-       console.log("Button 2");
-       harp.toMaster();
-       harp.triggerAttack("B3");
-     });*/
-
-    button3.on("press", function () {
-          console.log("Button 3");
-          harp.toMaster();
-          harp.triggerAttack("C3");
-        });
+      button3.on("press", function () {
+        console.log("Button 3");
+        harp.toMaster();
+        harp.triggerAttack("C3");
+      });
 
       button4.on("press", function () {
         console.log("Button 4");
@@ -764,7 +764,8 @@ Tone.Buffer.on('load', () => {
       });
 
 
-    });
+    };
 
+  });
 
 });
