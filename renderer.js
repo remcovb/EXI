@@ -17,7 +17,10 @@ process.__defineGetter__('stdin', () => {
 });
 
 const Tone = require("Tone");
-//import SampleLibrary from './lib/Tonejs-Instruments';
+//const SampleLibrary = require("./lib/Tonejs-Instruments");
+
+const $sound = document.querySelector('.sound');
+const $box = document.querySelector('.box');
 
 /**
 * @fileoverview A sample library and quick-loader for tone.js
@@ -673,87 +676,95 @@ var SampleLibrary = {
 
 
 
-const $sound = document.querySelector('.sound');
 const $sound2 = document.querySelector('.sound2');
 const $sound3 = document.querySelector('.sound3');
 const $sound4 = document.querySelector('.sound4');
 const $sound5 = document.querySelector('.sound5');
 
 
+const $guitar = document.querySelector('.guitar');
+const $bass = document.querySelector('.bass');
+const $piano = document.querySelector('.piano');
+const $harp = document.querySelector('.harp');
+
+let instrument = 'guitar-electric';
+let choosen = true;
 
 
 const harp = SampleLibrary.load({
-  instruments: 'harp',
+  instruments: instrument,
   baseUrl: "lib/samples/"
 });
 
+
+
 Tone.Buffer.on('load', () => {
 
-  $sound.addEventListener('mousedown', () => {
-    console.log("button down");
-    harp.toMaster();
-    harp.triggerAttack("A3");
-  });
+  board.on("ready", () => {
 
-  $sound2.addEventListener('mousedown', () => {
-    console.log("button down");
-    harp.toMaster();
-    harp.triggerAttack("B3");
-  });
-
-  $sound3.addEventListener('mousedown', () => {
-    console.log("button down");
-    harp.toMaster();
-    harp.triggerAttack("C3");
-  });
-
-  $sound4.addEventListener('mousedown', () => {
-    console.log("button down");
-    harp.toMaster();
-    harp.triggerAttack("D3");
-  });
-
-  $sound5.addEventListener('mousedown', () => {
-    console.log("button down");
-    harp.toMaster();
-    harp.triggerAttack("E3");
-  });
-
-
-});
-
-
-/*$sound2.addEventListener('mousedown', () => {
-  const piano = SampleLibrary.load({
-    instruments: 'guitar-electric',
-    baseUrl: "lib/samples/"
-  });
-
-  Tone.Buffer.on('load', () => {
-
-    piano.toMaster();
-    piano.triggerAttack("A4");
-  });
-
-
-});
-
-*/
+    const button1 = new five.Button(3);
+    const button2 = new five.Button(5);
+    const button3 = new five.Button(7);
+    const button4 = new five.Button(8);
+    const button5 = new five.Button(10);
 
 
 
-board.on("ready", () => {
-  const button = new five.Button(8);
 
-  button.on("hold", function () {
-    console.log("Button held");
-  });
+    button1.on("press", function () {
+      choosen = false;
 
-  button.on("press", function () {
-    console.log("Button pressed");
-  });
 
-  button.on("release", function () {
-    console.log("Button released");
-  });
+
+
+      $guitar.classList.toggle('show');
+      $bass.classList.toggle('show');
+      $piano.classList.toggle('show');
+      $harp.classList.toggle('show');
+      chooseInstrument();
+
+
+
+
+
+    });
+
+
+
+    chooseInstrument = () => {
+      button2.on("press", function () {
+        console.log("Button 2");
+        harp.toMaster();
+        harp.triggerAttack("B3");
+      }
+
+
+    /* button2.on("press", function () {
+       console.log("Button 2");
+       harp.toMaster();
+       harp.triggerAttack("B3");
+     });*/
+
+    button3.on("press", function () {
+          console.log("Button 3");
+          harp.toMaster();
+          harp.triggerAttack("C3");
+        });
+
+      button4.on("press", function () {
+        console.log("Button 4");
+        harp.toMaster();
+        harp.triggerAttack("D3");
+      });
+
+      button5.on("press", function () {
+        console.log("Button 5");
+        harp.toMaster();
+        harp.triggerAttack("E3");
+      });
+
+
+    });
+
+
 });
