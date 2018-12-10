@@ -688,10 +688,30 @@ const $piano = document.querySelector('.piano');
 const $harp = document.querySelector('.harp');
 
 let instrument = 'guitar-electric';
-let choosen = true;
+let chosen = false;
 
 
 const harp = SampleLibrary.load({
+  instruments: 'harp',
+  baseUrl: "lib/samples/"
+});
+
+const piano = SampleLibrary.load({
+  instruments: 'piano',
+  baseUrl: "lib/samples/"
+});
+
+const bass = SampleLibrary.load({
+  instruments: 'bass-electric',
+  baseUrl: "lib/samples/"
+});
+
+const guitar = SampleLibrary.load({
+  instruments: 'guitar-electric',
+  baseUrl: "lib/samples/"
+});
+
+const inst = SampleLibrary.load({
   instruments: instrument,
   baseUrl: "lib/samples/"
 });
@@ -707,61 +727,70 @@ Tone.Buffer.on('load', () => {
     const button3 = new five.Button(7);
     const button4 = new five.Button(8);
     const button5 = new five.Button(10);
-
-
-
+    const chooseButton1 = new five.Button(5);
+    const chooseButton2 = new five.Button(7);
+    const chooseButton3 = new five.Button(8);
+    const chooseButton4 = new five.Button(10);
 
     button1.on("press", function () {
-      choosen = false;
-
-
-
-
-      $guitar.classList.toggle('show');
-      $bass.classList.toggle('show');
-      $piano.classList.toggle('show');
-      $harp.classList.toggle('show');
-      chooseInstrument();
-
-
-
-
+      console.log("hey");
+      console.log(chosen);
+      if (chosen === false) {
+        $guitar.classList.toggle('show');
+        $bass.classList.toggle('show');
+        $piano.classList.toggle('show');
+        $harp.classList.toggle('show');
+        chooseInstrument();
+      } else {
+        console.log(instrument);
+      }
 
     });
 
-
+    deleteChoice = () => {
+      chooseButton1.disabled = true;
+      chooseButton2.disabled = true;
+      chooseButton3.disabled = true;
+      chooseButton4.disabled = true;
+    }
 
     chooseInstrument = () => {
-      button1.on("press", function () {
-        console.log("Button 2");
-        harp.toMaster();
-        harp.triggerAttack("B3");
-      });
-
-
-      button2.on("press", function () {
-        console.log("Button 2");
-        harp.toMaster();
-        harp.triggerAttack("B3");
-      });
-
-      button3.on("press", function () {
-        console.log("Button 3");
-        harp.toMaster();
-        harp.triggerAttack("C3");
-      });
-
-      button4.on("press", function () {
-        console.log("Button 4");
-        harp.toMaster();
-        harp.triggerAttack("D3");
-      });
-
-      button5.on("press", function () {
-        console.log("Button 5");
-        harp.toMaster();
-        harp.triggerAttack("E3");
-      });
+      if (chosen === false) {
+        chooseButton1.on("press", function() {
+          console.log(chosen);
+          instrument = 'guitar-electric';
+          console.log(instrument);
+          guitar.toMaster();
+          guitar.triggerAttack("B3");
+          deleteChoice();
+          chosen = true;
+          console.log(chosen);
+        })
+        chooseButton2.on("press", function() {
+          instrument = 'piano';
+          console.log(instrument);
+          piano.toMaster();
+          piano.triggerAttack("B3");
+          deleteChoice();
+          chosen = true;
+        })
+        chooseButton3.on("press", function() {
+          instrument = 'harp';
+          console.log(instrument);
+          harp.toMaster();
+          harp.triggerAttack("B3");
+          deleteChoice();
+          chosen = true;
+        })
+        chooseButton4.on("press", function() {
+          instrument = 'bass-electric';
+          console.log(instrument);
+          bass.toMaster();
+          bass.triggerAttack("B3");
+          deleteChoice();
+          chosen = true;
+        })
+      }
 
 
     };
