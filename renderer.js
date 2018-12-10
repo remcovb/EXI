@@ -671,11 +671,6 @@ var SampleLibrary = {
 
 }
 
-
-
-
-
-
 const $sound2 = document.querySelector('.sound2');
 const $sound3 = document.querySelector('.sound3');
 const $sound4 = document.querySelector('.sound4');
@@ -687,38 +682,19 @@ const $bass = document.querySelector('.bass');
 const $piano = document.querySelector('.piano');
 const $harp = document.querySelector('.harp');
 
-let instrument = 'guitar-electric';
+let instrument = 'piano';
 let chosen = true;
 
 
-const harp = SampleLibrary.load({
-  instruments: 'harp',
-  baseUrl: "lib/samples/"
-});
-
-const piano = SampleLibrary.load({
-  instruments: 'piano',
-  baseUrl: "lib/samples/"
-});
-
-const bass = SampleLibrary.load({
-  instruments: 'bass-electric',
-  baseUrl: "lib/samples/"
-});
-
-const guitar = SampleLibrary.load({
-  instruments: 'guitar-electric',
-  baseUrl: "lib/samples/"
-});
-
-const inst = SampleLibrary.load({
+let selectedInstrument = SampleLibrary.load({
   instruments: instrument,
   baseUrl: "lib/samples/"
 });
 
 
-
 Tone.Buffer.on('load', () => {
+
+  console.log(instrument);
 
   board.on("ready", () => {
 
@@ -727,11 +703,6 @@ Tone.Buffer.on('load', () => {
     const button3 = new five.Button(7);
     const button4 = new five.Button(8);
     const button5 = new five.Button(10);
-    /* const chooseButton1 = new five.Button(5);
-     const chooseButton2 = new five.Button(7);
-     const chooseButton3 = new five.Button(8);
-     const chooseButton4 = new five.Button(10);*/
-
 
 
     button1.on("press", function () {
@@ -751,47 +722,30 @@ Tone.Buffer.on('load', () => {
 
     });
 
-    /*chooseInstrument = () => {
-      if (chosen === false) {
-        button2.on("press", function () {
+    button2.on("press", function () {
+      selectedInstrument.toMaster();
+      selectedInstrument.triggerAttack("B3");
 
-          instrument = 'guitar-electric';
-          console.log(instrument);
-          guitar.toMaster();
-          guitar.triggerAttack("B3");
+    });
 
-          chosen = true;
-          console.log(chosen);
-        })
-        button3.on("press", function () {
-          instrument = 'piano';
-          console.log(instrument);
-          piano.toMaster();
-          piano.triggerAttack("B3");
+    button3.on("press", function () {
+      selectedInstrument.toMaster();
+      selectedInstrument.triggerAttack("C3");
 
-          chosen = true;
-        })
-        button4.on("press", function () {
-          instrument = 'harp';
-          console.log(instrument);
-          harp.toMaster();
-          harp.triggerAttack("B3");
+    });
 
-          chosen = true;
-        })
-        button5.on("press", function () {
-          instrument = 'bass-electric';
-          console.log(instrument);
-          bass.toMaster();
-          bass.triggerAttack("B3");
+    button4.on("press", function () {
+      selectedInstrument.toMaster();
+      selectedInstrument.triggerAttack("D3");
 
-          chosen = true;
-        })
-      }
+    });
 
+    button5.on("press", function () {
+      selectedInstrument.toMaster();
+      selectedInstrument.triggerAttack("E3");
 
-  };
-*/
+    });
+
 
     const chooseInstrument = () => {
       console.log("test");
@@ -799,9 +753,14 @@ Tone.Buffer.on('load', () => {
       button2.on("press", function () {
         if (!chosen) {
           console.log("button 2 pressed");
-          instrument = 'guitar-electric';
+          instrument = "guitar-electric";
           chosen = true;
+          selectedInstrument = SampleLibrary.load({
+            instruments: instrument,
+            baseUrl: "lib/samples/"
+          });
           console.log(chosen);
+          console.log(instrument);
           $guitar.classList.remove('show');
           $bass.classList.remove('show');
           $piano.classList.remove('show');
@@ -815,7 +774,12 @@ Tone.Buffer.on('load', () => {
           console.log("button 3 pressed");
           instrument = 'piano';
           chosen = true;
+          selectedInstrument = SampleLibrary.load({
+            instruments: instrument,
+            baseUrl: "lib/samples/"
+          });
           console.log(chosen);
+          console.log(instrument);
           $guitar.classList.remove('show');
           $bass.classList.remove('show');
           $piano.classList.remove('show');
@@ -827,9 +791,14 @@ Tone.Buffer.on('load', () => {
       button4.on("press", function () {
         if (!chosen) {
           console.log("button 4 pressed");
-          instrument = 'harp';
+          instrument = 'xylophone';
           chosen = true;
+          selectedInstrument = SampleLibrary.load({
+            instruments: instrument,
+            baseUrl: "lib/samples/"
+          });
           console.log(chosen);
+          console.log(instrument);
           $guitar.classList.remove('show');
           $bass.classList.remove('show');
           $piano.classList.remove('show');
@@ -843,7 +812,12 @@ Tone.Buffer.on('load', () => {
           console.log("button 5 pressed");
           instrument = 'bass-electric';
           chosen = true;
+          selectedInstrument = SampleLibrary.load({
+            instruments: instrument,
+            baseUrl: "lib/samples/"
+          });
           console.log(chosen);
+          console.log(instrument);
           $guitar.classList.remove('show');
           $bass.classList.remove('show');
           $piano.classList.remove('show');
@@ -854,7 +828,8 @@ Tone.Buffer.on('load', () => {
 
 
     }
+
+
   });
-
-
 });
+
