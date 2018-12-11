@@ -680,7 +680,9 @@ const $sound5 = document.querySelector('.sound5');
 const $guitar = document.querySelector('.guitar');
 const $bass = document.querySelector('.bass');
 const $piano = document.querySelector('.piano');
-const $harp = document.querySelector('.harp');
+const $xylophone = document.querySelector('.xylophone');
+const $choose = document.querySelector('.choose');
+const $intro = document.querySelector('.intro');
 
 let instrument = 'piano';
 let chosen = true;
@@ -706,15 +708,17 @@ Tone.Buffer.on('load', () => {
 
 
     button1.on("press", function () {
+      $intro.classList.add('hide');
       console.log("button press");
       console.log(chosen);
       chosen = false
       console.log(chosen)
       if (chosen === false) {
-        $guitar.classList.add('show');
-        $bass.classList.add('show');
-        $piano.classList.add('show');
-        $harp.classList.add('show');
+        $guitar.classList.remove('show');
+        $bass.classList.remove('show');
+        $piano.classList.remove('show');
+        $xylophone.classList.remove('show');
+        $choose.classList.add('show');
         chooseInstrument();
       } else {
         console.log(instrument);
@@ -730,7 +734,7 @@ Tone.Buffer.on('load', () => {
 
     button3.on("press", function () {
       selectedInstrument.toMaster();
-      selectedInstrument.triggerAttack("C3");
+      selectedInstrument.triggerAttack("Db3");
 
     });
 
@@ -761,10 +765,11 @@ Tone.Buffer.on('load', () => {
           });
           console.log(chosen);
           console.log(instrument);
-          $guitar.classList.remove('show');
           $bass.classList.remove('show');
           $piano.classList.remove('show');
-          $harp.classList.remove('show');
+          $xylophone.classList.remove('show');
+          $choose.classList.remove('show');
+          $guitar.classList.add('show');
           return;
         }
       });
@@ -782,8 +787,9 @@ Tone.Buffer.on('load', () => {
           console.log(instrument);
           $guitar.classList.remove('show');
           $bass.classList.remove('show');
-          $piano.classList.remove('show');
-          $harp.classList.remove('show');
+          $xylophone.classList.remove('show');
+          $choose.classList.remove('show');
+          $piano.classList.add('show');
           return;
         }
       });
@@ -802,7 +808,8 @@ Tone.Buffer.on('load', () => {
           $guitar.classList.remove('show');
           $bass.classList.remove('show');
           $piano.classList.remove('show');
-          $harp.classList.remove('show');
+          $choose.classList.remove('show');
+          $xylophone.classList.add('show');
           return;
         }
       });
@@ -819,9 +826,10 @@ Tone.Buffer.on('load', () => {
           console.log(chosen);
           console.log(instrument);
           $guitar.classList.remove('show');
-          $bass.classList.remove('show');
           $piano.classList.remove('show');
-          $harp.classList.remove('show');
+          $xylophone.classList.remove('show');
+          $choose.classList.remove('show');
+          $bass.classList.add('show');
           return;
         }
       });
@@ -832,4 +840,3 @@ Tone.Buffer.on('load', () => {
 
   });
 });
-
