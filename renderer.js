@@ -8,7 +8,7 @@ class MyStream extends Readable {
 }
 
 const five = require('johnny-five');
-const board = new five.Board();
+const boards = new five.Boards(["A", "B"]);
 // hook in our stream
 process.__defineGetter__('stdin', () => {
   if (process.__stdin) return process.__stdin;
@@ -698,13 +698,55 @@ Tone.Buffer.on('load', () => {
 
   console.log(instrument);
 
-  board.on("ready", () => {
+  boards.on("ready", () => {
 
-    const button1 = new five.Button(3);
-    const button2 = new five.Button(5);
-    const button3 = new five.Button(7);
-    const button4 = new five.Button(8);
-    const button5 = new five.Button(10);
+    console.log(boards[0]);
+    console.log(boards[1]);
+
+    if (boards[0]) {
+
+      const proximity = new five.Proximity({
+        controller: "HCSR04",
+        pin: 7,
+        board: boards[0]
+      });
+
+      proximity.on("change", function() {
+        if (this.cm < 3) {
+          selectedInstrument.triggerRelease();
+          selectedInstrument.toMaster();
+          selectedInstrument.triggerAttack("A3");
+        } else if (this.cm < 6 && this.cm > 3) {
+          selectedInstrument.triggerRelease();
+          selectedInstrument.toMaster();
+          selectedInstrument.triggerAttack("B3");
+        } else if (this.cm < 9 && this.cm > 6) {
+          selectedInstrument.triggerRelease();
+          selectedInstrument.toMaster();
+          selectedInstrument.triggerAttack("C3");
+        } else if (this.cm < 50 && this.cm > 9) {
+          selectedInstrument.triggerRelease();
+          selectedInstrument.toMaster();
+          selectedInstrument.triggerAttack("D3");
+        }
+      });
+    }
+
+    each(function(board) {
+      if (boards[1]) {
+        const button1 = new five.Button(3);
+        const button2 = new five.Button(5);
+        const button3 = new five.Button(7);
+        const button4 = new five.Button(8);
+        const button5 = new five.Button(10);
+      }
+    })
+
+    // const button1 = new five.Button(3);
+    // const button2 = new five.Button(5);
+    // const button3 = new five.Button(7);
+    // const button4 = new five.Button(8);
+    // const button5 = new five.Button(10);
 
 
     button1.on("press", function () {
