@@ -17,7 +17,6 @@ process.__defineGetter__('stdin', () => {
 });
 
 const Tone = require("Tone");
-//const SampleLibrary = require("./lib/Tonejs-Instruments");
 
 const $sound = document.querySelector('.sound');
 const $box = document.querySelector('.box');
@@ -684,8 +683,11 @@ const $xylophone = document.querySelector('.xylophone');
 const $choose = document.querySelector('.choose');
 const $intro = document.querySelector('.intro');
 
+let values = [];
+
 let instrument = 'piano';
 let chosen = true;
+let played = false;
 
 
 let selectedInstrument = SampleLibrary.load({
@@ -696,189 +698,1047 @@ let selectedInstrument = SampleLibrary.load({
 
 Tone.Buffer.on('load', () => {
 
-  console.log(instrument);
 
   boards.on("ready", () => {
 
     console.log(boards[0]);
     console.log(boards[1]);
 
+    //Buttons en sensors 7 -> 12
     if (boards[0]) {
 
-      const proximity = new five.Proximity({
+      // sensore en button 1
+
+
+
+      const button1 = new five.Button({
+        pin: 2,
+        board: boards[0]
+      });
+
+      const proximity1 = new five.Proximity({
+        controller: "HCSR04",
+        pin: 3,
+        board: boards[0]
+      });
+
+
+
+
+
+
+
+      button1.on("press", function () {
+        console.log("button board 2 pressed");
+
+        proximity1.on("data", function () {
+          console.log(this.cm);
+          if (values.length < 1) {
+            values.push(this.cm);
+          }
+          console.log(values);
+
+        });
+
+        if (values[0] <= 10 && !played) {
+          //console.log("under 3cm");
+
+          selectedInstrument.triggerRelease();
+          selectedInstrument.toMaster();
+          selectedInstrument.triggerAttack("B3");
+
+          played = true;
+
+        } else if (values[0] >= 11 && values[0] <= 20 && !played) {
+          //console.log("between 3cm & 6cm");
+          selectedInstrument.triggerRelease();
+          selectedInstrument.toMaster();
+          selectedInstrument.triggerAttack("C3");
+          played = true;
+
+
+        } else if (values[0] >= 21 && values[0] <= 30 && !played) {
+          // console.log("between 6cm & 9cm");
+          selectedInstrument.triggerRelease();
+          selectedInstrument.toMaster();
+          selectedInstrument.triggerAttack("D3");
+          played = true;
+
+
+        } else if (values[0] >= 31 && values[0] <= 40 && !played) {
+          //console.log("between 9cm & 50cm");
+          selectedInstrument.triggerRelease();
+          selectedInstrument.toMaster();
+          selectedInstrument.triggerAttack("E3");
+          played = true;
+
+
+        } else if (values[0] >= 41 && values[0] <= 50 && !played) {
+          //console.log("between 9cm & 50cm");
+          selectedInstrument.triggerRelease();
+          selectedInstrument.toMaster();
+          selectedInstrument.triggerAttack("E4");
+          played = true;
+
+
+        }
+
+        return;
+      })
+
+      button1.on("release", function () {
+
+        played = false;
+        values = [];
+
+      });
+
+
+      // sensore en button 2
+
+
+
+      const button2 = new five.Button({
+        pin: 4,
+        board: boards[0]
+      });
+
+      const proximity2 = new five.Proximity({
+        controller: "HCSR04",
+        pin: 5,
+        board: boards[0]
+      });
+
+
+
+
+
+
+
+      button2.on("press", function () {
+        console.log("button board 2 pressed");
+
+        proximity2.on("data", function () {
+          console.log(this.cm);
+          if (values.length < 1) {
+            values.push(this.cm);
+          }
+          console.log(values);
+
+        });
+
+        if (values[0] <= 10 && !played) {
+          //console.log("under 3cm");
+
+          selectedInstrument.triggerRelease();
+          selectedInstrument.toMaster();
+          selectedInstrument.triggerAttack("B3");
+
+          played = true;
+
+        } else if (values[0] >= 11 && values[0] <= 20 && !played) {
+          //console.log("between 3cm & 6cm");
+          selectedInstrument.triggerRelease();
+          selectedInstrument.toMaster();
+          selectedInstrument.triggerAttack("C3");
+          played = true;
+
+
+        } else if (values[0] >= 21 && values[0] <= 30 && !played) {
+          // console.log("between 6cm & 9cm");
+          selectedInstrument.triggerRelease();
+          selectedInstrument.toMaster();
+          selectedInstrument.triggerAttack("D3");
+          played = true;
+
+
+        } else if (values[0] >= 31 && values[0] <= 40 && !played) {
+          //console.log("between 9cm & 50cm");
+          selectedInstrument.triggerRelease();
+          selectedInstrument.toMaster();
+          selectedInstrument.triggerAttack("E3");
+          played = true;
+
+
+        } else if (values[0] >= 41 && values[0] <= 50 && !played) {
+          //console.log("between 9cm & 50cm");
+          selectedInstrument.triggerRelease();
+          selectedInstrument.toMaster();
+          selectedInstrument.triggerAttack("E4");
+          played = true;
+
+
+        }
+
+        return;
+      })
+
+      button2.on("release", function () {
+
+        played = false;
+        values = [];
+
+      });
+
+      // sensore en button 3
+
+
+
+      const button3 = new five.Button({
+        pin: 6,
+        board: boards[0]
+      });
+
+      const proximity3 = new five.Proximity({
         controller: "HCSR04",
         pin: 7,
         board: boards[0]
       });
 
-      proximity.on("change", function() {
-        if (this.cm < 3) {
-          selectedInstrument.triggerRelease();
-          selectedInstrument.toMaster();
-          selectedInstrument.triggerAttack("A3");
-        } else if (this.cm < 6 && this.cm > 3) {
+
+
+
+
+
+
+      button3.on("press", function () {
+        console.log("button board 2 pressed");
+
+        proximity3.on("data", function () {
+          console.log(this.cm);
+          if (values.length < 1) {
+            values.push(this.cm);
+          }
+          console.log(values);
+
+        });
+
+        if (values[0] <= 10 && !played) {
+          //console.log("under 3cm");
+
           selectedInstrument.triggerRelease();
           selectedInstrument.toMaster();
           selectedInstrument.triggerAttack("B3");
-        } else if (this.cm < 9 && this.cm > 6) {
+
+          played = true;
+
+        } else if (values[0] >= 11 && values[0] <= 20 && !played) {
+          //console.log("between 3cm & 6cm");
           selectedInstrument.triggerRelease();
           selectedInstrument.toMaster();
           selectedInstrument.triggerAttack("C3");
-        } else if (this.cm < 50 && this.cm > 9) {
+          played = true;
+
+
+        } else if (values[0] >= 21 && values[0] <= 30 && !played) {
+          // console.log("between 6cm & 9cm");
           selectedInstrument.triggerRelease();
           selectedInstrument.toMaster();
           selectedInstrument.triggerAttack("D3");
+          played = true;
+
+
+        } else if (values[0] >= 31 && values[0] <= 40 && !played) {
+          //console.log("between 9cm & 50cm");
+          selectedInstrument.triggerRelease();
+          selectedInstrument.toMaster();
+          selectedInstrument.triggerAttack("E3");
+          played = true;
+
+
+        } else if (values[0] >= 41 && values[0] <= 50 && !played) {
+          //console.log("between 9cm & 50cm");
+          selectedInstrument.triggerRelease();
+          selectedInstrument.toMaster();
+          selectedInstrument.triggerAttack("E4");
+          played = true;
+
+
         }
-      });
-    }
 
-    each(function(board) {
-      if (boards[1]) {
-        const button1 = new five.Button(3);
-        const button2 = new five.Button(5);
-        const button3 = new five.Button(7);
-        const button4 = new five.Button(8);
-        const button5 = new five.Button(10);
-      }
-    })
+        return;
+      })
 
-    // const button1 = new five.Button(3);
-    // const button2 = new five.Button(5);
-    // const button3 = new five.Button(7);
-    // const button4 = new five.Button(8);
-    // const button5 = new five.Button(10);
+      button3.on("release", function () {
 
+        played = false;
+        values = [];
 
-    button1.on("press", function () {
-      $intro.classList.add('hide');
-      console.log("button press");
-      console.log(chosen);
-      chosen = false
-      console.log(chosen)
-      if (chosen === false) {
-        $guitar.classList.remove('show');
-        $bass.classList.remove('show');
-        $piano.classList.remove('show');
-        $xylophone.classList.remove('show');
-        $choose.classList.add('show');
-        chooseInstrument();
-      } else {
-        console.log(instrument);
-      }
-
-    });
-
-    button2.on("press", function () {
-      selectedInstrument.toMaster();
-      selectedInstrument.triggerAttack("B3");
-
-    });
-
-    button3.on("press", function () {
-      selectedInstrument.toMaster();
-      selectedInstrument.triggerAttack("Db3");
-
-    });
-
-    button4.on("press", function () {
-      selectedInstrument.toMaster();
-      selectedInstrument.triggerAttack("D3");
-
-    });
-
-    button5.on("press", function () {
-      selectedInstrument.toMaster();
-      selectedInstrument.triggerAttack("E3");
-
-    });
-
-
-    const chooseInstrument = () => {
-      console.log("test");
-
-      button2.on("press", function () {
-        if (!chosen) {
-          console.log("button 2 pressed");
-          instrument = "guitar-electric";
-          chosen = true;
-          selectedInstrument = SampleLibrary.load({
-            instruments: instrument,
-            baseUrl: "lib/samples/"
-          });
-          console.log(chosen);
-          console.log(instrument);
-          $bass.classList.remove('show');
-          $piano.classList.remove('show');
-          $xylophone.classList.remove('show');
-          $choose.classList.remove('show');
-          $guitar.classList.add('show');
-          return;
-        }
       });
 
-      button3.on("press", function () {
-        if (!chosen) {
-          console.log("button 3 pressed");
-          instrument = 'piano';
-          chosen = true;
-          selectedInstrument = SampleLibrary.load({
-            instruments: instrument,
-            baseUrl: "lib/samples/"
-          });
-          console.log(chosen);
-          console.log(instrument);
-          $guitar.classList.remove('show');
-          $bass.classList.remove('show');
-          $xylophone.classList.remove('show');
-          $choose.classList.remove('show');
-          $piano.classList.add('show');
-          return;
-        }
+
+      // sensore en button 4
+
+
+
+      const button4 = new five.Button({
+        pin: 8,
+        board: boards[0]
       });
+
+      const proximity4 = new five.Proximity({
+        controller: "HCSR04",
+        pin: 9,
+        board: boards[0]
+      });
+
+
+
+
+
+
 
       button4.on("press", function () {
-        if (!chosen) {
-          console.log("button 4 pressed");
-          instrument = 'xylophone';
-          chosen = true;
-          selectedInstrument = SampleLibrary.load({
-            instruments: instrument,
-            baseUrl: "lib/samples/"
-          });
-          console.log(chosen);
-          console.log(instrument);
-          $guitar.classList.remove('show');
-          $bass.classList.remove('show');
-          $piano.classList.remove('show');
-          $choose.classList.remove('show');
-          $xylophone.classList.add('show');
-          return;
+        console.log("button board 2 pressed");
+
+        proximity4.on("data", function () {
+          console.log(this.cm);
+          if (values.length < 1) {
+            values.push(this.cm);
+          }
+          console.log(values);
+
+        });
+
+        if (values[0] <= 10 && !played) {
+          //console.log("under 3cm");
+
+          selectedInstrument.triggerRelease();
+          selectedInstrument.toMaster();
+          selectedInstrument.triggerAttack("B3");
+
+          played = true;
+
+        } else if (values[0] >= 11 && values[0] <= 20 && !played) {
+          //console.log("between 3cm & 6cm");
+          selectedInstrument.triggerRelease();
+          selectedInstrument.toMaster();
+          selectedInstrument.triggerAttack("C3");
+          played = true;
+
+
+        } else if (values[0] >= 21 && values[0] <= 30 && !played) {
+          // console.log("between 6cm & 9cm");
+          selectedInstrument.triggerRelease();
+          selectedInstrument.toMaster();
+          selectedInstrument.triggerAttack("D3");
+          played = true;
+
+
+        } else if (values[0] >= 31 && values[0] <= 40 && !played) {
+          //console.log("between 9cm & 50cm");
+          selectedInstrument.triggerRelease();
+          selectedInstrument.toMaster();
+          selectedInstrument.triggerAttack("E3");
+          played = true;
+
+
+        } else if (values[0] >= 41 && values[0] <= 50 && !played) {
+          //console.log("between 9cm & 50cm");
+          selectedInstrument.triggerRelease();
+          selectedInstrument.toMaster();
+          selectedInstrument.triggerAttack("E4");
+          played = true;
+
+
         }
+
+        return;
+      })
+
+      button4.on("release", function () {
+
+        played = false;
+        values = [];
+
       });
 
-      button5.on("press", function () {
-        if (!chosen) {
-          console.log("button 5 pressed");
-          instrument = 'bass-electric';
-          chosen = true;
-          selectedInstrument = SampleLibrary.load({
-            instruments: instrument,
-            baseUrl: "lib/samples/"
-          });
-          console.log(chosen);
-          console.log(instrument);
-          $guitar.classList.remove('show');
-          $piano.classList.remove('show');
-          $xylophone.classList.remove('show');
-          $choose.classList.remove('show');
-          $bass.classList.add('show');
-          return;
-        }
+      // sensore en button 5
+
+
+
+      const button5 = new five.Button({
+        pin: 10,
+        board: boards[0]
       });
+
+      const proximity5 = new five.Proximity({
+        controller: "HCSR04",
+        pin: 11,
+        board: boards[0]
+      });
+
+
+
+
+
+
+
+      button5.on("press", function () {
+        console.log("button board 2 pressed");
+
+        proximity5.on("data", function () {
+          console.log(this.cm);
+          if (values.length < 1) {
+            values.push(this.cm);
+          }
+          console.log(values);
+
+        });
+
+        if (values[0] <= 10 && !played) {
+          //console.log("under 3cm");
+
+          selectedInstrument.triggerRelease();
+          selectedInstrument.toMaster();
+          selectedInstrument.triggerAttack("B3");
+
+          played = true;
+
+        } else if (values[0] >= 11 && values[0] <= 20 && !played) {
+          //console.log("between 3cm & 6cm");
+          selectedInstrument.triggerRelease();
+          selectedInstrument.toMaster();
+          selectedInstrument.triggerAttack("C3");
+          played = true;
+
+
+        } else if (values[0] >= 21 && values[0] <= 30 && !played) {
+          // console.log("between 6cm & 9cm");
+          selectedInstrument.triggerRelease();
+          selectedInstrument.toMaster();
+          selectedInstrument.triggerAttack("D3");
+          played = true;
+
+
+        } else if (values[0] >= 31 && values[0] <= 40 && !played) {
+          //console.log("between 9cm & 50cm");
+          selectedInstrument.triggerRelease();
+          selectedInstrument.toMaster();
+          selectedInstrument.triggerAttack("E3");
+          played = true;
+
+
+        } else if (values[0] >= 41 && values[0] <= 50 && !played) {
+          //console.log("between 9cm & 50cm");
+          selectedInstrument.triggerRelease();
+          selectedInstrument.toMaster();
+          selectedInstrument.triggerAttack("E4");
+          played = true;
+
+
+        }
+
+        return;
+      })
+
+      button5.on("release", function () {
+
+        played = false;
+        values = [];
+
+      });
+
+      // sensore en button 6
+
+
+
+      const button6 = new five.Button({
+        pin: 12,
+        board: boards[0]
+      });
+
+      const proximity6 = new five.Proximity({
+        controller: "HCSR04",
+        pin: 13,
+        board: boards[0]
+      });
+
+
+
+
+
+
+
+      button6.on("press", function () {
+        console.log("button board 2 pressed");
+
+        proximity6.on("data", function () {
+          console.log(this.cm);
+          if (values.length < 1) {
+            values.push(this.cm);
+          }
+          console.log(values);
+
+        });
+
+        if (values[0] <= 10 && !played) {
+          //console.log("under 3cm");
+
+          selectedInstrument.triggerRelease();
+          selectedInstrument.toMaster();
+          selectedInstrument.triggerAttack("B3");
+
+          played = true;
+
+        } else if (values[0] >= 11 && values[0] <= 20 && !played) {
+          //console.log("between 3cm & 6cm");
+          selectedInstrument.triggerRelease();
+          selectedInstrument.toMaster();
+          selectedInstrument.triggerAttack("C3");
+          played = true;
+
+
+        } else if (values[0] >= 21 && values[0] <= 30 && !played) {
+          // console.log("between 6cm & 9cm");
+          selectedInstrument.triggerRelease();
+          selectedInstrument.toMaster();
+          selectedInstrument.triggerAttack("D3");
+          played = true;
+
+
+        } else if (values[0] >= 31 && values[0] <= 40 && !played) {
+          //console.log("between 9cm & 50cm");
+          selectedInstrument.triggerRelease();
+          selectedInstrument.toMaster();
+          selectedInstrument.triggerAttack("E3");
+          played = true;
+
+
+        } else if (values[0] >= 41 && values[0] <= 50 && !played) {
+          //console.log("between 9cm & 50cm");
+          selectedInstrument.triggerRelease();
+          selectedInstrument.toMaster();
+          selectedInstrument.triggerAttack("E4");
+          played = true;
+
+
+        }
+
+        return;
+      })
+
+      button6.on("release", function () {
+
+        played = false;
+        values = [];
+
+      });
+
+    }
+
+    //Buttons en sensors 7 -> 12
+
+    if (boards[1]) {
+
+      //button 7 & sensor 7
+
+      const button7 = new five.Button({
+        pin: 2,
+        board: boards[1]
+      });
+
+      const proximity7 = new five.Proximity({
+        controller: "HCSR04",
+        pin: 3,
+        board: boards[1]
+      });
+
+
+
+
+
+
+
+      button7.on("press", function () {
+        console.log("button board 2 pressed");
+
+        proximity7.on("data", function () {
+          console.log(this.cm);
+          if (values.length < 1) {
+            values.push(this.cm);
+          }
+          console.log(values);
+
+        });
+
+        if (values[0] <= 10 && !played) {
+          //console.log("under 3cm");
+
+          selectedInstrument.triggerRelease();
+          selectedInstrument.toMaster();
+          selectedInstrument.triggerAttack("B3");
+
+          played = true;
+
+        } else if (values[0] >= 11 && values[0] <= 20 && !played) {
+          //console.log("between 3cm & 6cm");
+          selectedInstrument.triggerRelease();
+          selectedInstrument.toMaster();
+          selectedInstrument.triggerAttack("C3");
+          played = true;
+
+
+        } else if (values[0] >= 21 && values[0] <= 30 && !played) {
+          // console.log("between 6cm & 9cm");
+          selectedInstrument.triggerRelease();
+          selectedInstrument.toMaster();
+          selectedInstrument.triggerAttack("D3");
+          played = true;
+
+
+        } else if (values[0] >= 31 && values[0] <= 40 && !played) {
+          //console.log("between 9cm & 50cm");
+          selectedInstrument.triggerRelease();
+          selectedInstrument.toMaster();
+          selectedInstrument.triggerAttack("E3");
+          played = true;
+
+
+        } else if (values[0] >= 41 && values[0] <= 50 && !played) {
+          //console.log("between 9cm & 50cm");
+          selectedInstrument.triggerRelease();
+          selectedInstrument.toMaster();
+          selectedInstrument.triggerAttack("E4");
+          played = true;
+
+
+        }
+
+        return;
+      })
+
+      button7.on("release", function () {
+
+        played = false;
+        values = [];
+
+      });
+
+
+      // Sensor 8 & drukknop 8
+
+      const button8 = new five.Button({
+        pin: 4,
+        board: boards[1]
+      });
+
+      const proximity8 = new five.Proximity({
+        controller: "HCSR04",
+        pin: 5,
+        board: boards[1]
+      });
+
+
+      button8.on("press", function () {
+        console.log("button board 2 pressed");
+
+        proximity8.on("data", function () {
+          console.log(this.cm);
+          if (values.length < 1) {
+            values.push(this.cm);
+          }
+          console.log(values);
+
+        });
+
+        if (values[0] <= 10 && !played) {
+          //console.log("under 3cm");
+
+          selectedInstrument.triggerRelease();
+          selectedInstrument.toMaster();
+          selectedInstrument.triggerAttack("B3");
+
+          played = true;
+
+        } else if (values[0] >= 11 && values[0] <= 20 && !played) {
+          //console.log("between 3cm & 6cm");
+          selectedInstrument.triggerRelease();
+          selectedInstrument.toMaster();
+          selectedInstrument.triggerAttack("C3");
+          played = true;
+
+
+        } else if (values[0] >= 21 && values[0] <= 30 && !played) {
+          // console.log("between 6cm & 9cm");
+          selectedInstrument.triggerRelease();
+          selectedInstrument.toMaster();
+          selectedInstrument.triggerAttack("D3");
+          played = true;
+
+
+        } else if (values[0] >= 31 && values[0] <= 40 && !played) {
+          //console.log("between 9cm & 50cm");
+          selectedInstrument.triggerRelease();
+          selectedInstrument.toMaster();
+          selectedInstrument.triggerAttack("E3");
+          played = true;
+
+
+        } else if (values[0] >= 41 && values[0] <= 50 && !played) {
+          //console.log("between 9cm & 50cm");
+          selectedInstrument.triggerRelease();
+          selectedInstrument.toMaster();
+          selectedInstrument.triggerAttack("E4");
+          played = true;
+
+
+        }
+
+        return;
+      })
+
+      button8.on("release", function () {
+
+        played = false;
+        values = [];
+
+      });
+
+      // Sensor 9 & drukknop 9
+
+      const button9 = new five.Button({
+        pin: 6,
+        board: boards[1]
+      });
+
+      const proximity9 = new five.Proximity({
+        controller: "HCSR04",
+        pin: 7,
+        board: boards[1]
+      });
+
+
+      button9.on("press", function () {
+        console.log("button board 2 pressed");
+
+        proximity9.on("data", function () {
+          console.log(this.cm);
+          if (values.length < 1) {
+            values.push(this.cm);
+          }
+          console.log(values);
+
+        });
+
+        if (values[0] <= 10 && !played) {
+          //console.log("under 3cm");
+
+          selectedInstrument.triggerRelease();
+          selectedInstrument.toMaster();
+          selectedInstrument.triggerAttack("B3");
+
+          played = true;
+
+        } else if (values[0] >= 11 && values[0] <= 20 && !played) {
+          //console.log("between 3cm & 6cm");
+          selectedInstrument.triggerRelease();
+          selectedInstrument.toMaster();
+          selectedInstrument.triggerAttack("C3");
+          played = true;
+
+
+        } else if (values[0] >= 21 && values[0] <= 30 && !played) {
+          // console.log("between 6cm & 9cm");
+          selectedInstrument.triggerRelease();
+          selectedInstrument.toMaster();
+          selectedInstrument.triggerAttack("D3");
+          played = true;
+
+
+        } else if (values[0] >= 31 && values[0] <= 40 && !played) {
+          //console.log("between 9cm & 50cm");
+          selectedInstrument.triggerRelease();
+          selectedInstrument.toMaster();
+          selectedInstrument.triggerAttack("E3");
+          played = true;
+
+
+        } else if (values[0] >= 41 && values[0] <= 50 && !played) {
+          //console.log("between 9cm & 50cm");
+          selectedInstrument.triggerRelease();
+          selectedInstrument.toMaster();
+          selectedInstrument.triggerAttack("E4");
+          played = true;
+
+
+        }
+
+        return;
+      })
+
+      button9.on("release", function () {
+
+        played = false;
+        values = [];
+
+      });
+
+      // Sensor 10 & drukknop 10
+
+      const button10 = new five.Button({
+        pin: 8,
+        board: boards[1]
+      });
+
+      const proximity10 = new five.Proximity({
+        controller: "HCSR04",
+        pin: 9,
+        board: boards[1]
+      });
+
+
+      button10.on("press", function () {
+        console.log("button board 2 pressed");
+
+        proximity10.on("data", function () {
+          console.log(this.cm);
+          if (values.length < 1) {
+            values.push(this.cm);
+          }
+          console.log(values);
+
+        });
+
+        if (values[0] <= 10 && !played) {
+          //console.log("under 3cm");
+
+          selectedInstrument.triggerRelease();
+          selectedInstrument.toMaster();
+          selectedInstrument.triggerAttack("B3");
+
+          played = true;
+
+        } else if (values[0] >= 11 && values[0] <= 20 && !played) {
+          //console.log("between 3cm & 6cm");
+          selectedInstrument.triggerRelease();
+          selectedInstrument.toMaster();
+          selectedInstrument.triggerAttack("C3");
+          played = true;
+
+
+        } else if (values[0] >= 21 && values[0] <= 30 && !played) {
+          // console.log("between 6cm & 9cm");
+          selectedInstrument.triggerRelease();
+          selectedInstrument.toMaster();
+          selectedInstrument.triggerAttack("D3");
+          played = true;
+
+
+        } else if (values[0] >= 31 && values[0] <= 40 && !played) {
+          //console.log("between 9cm & 50cm");
+          selectedInstrument.triggerRelease();
+          selectedInstrument.toMaster();
+          selectedInstrument.triggerAttack("E3");
+          played = true;
+
+
+        } else if (values[0] >= 41 && values[0] <= 50 && !played) {
+          //console.log("between 9cm & 50cm");
+          selectedInstrument.triggerRelease();
+          selectedInstrument.toMaster();
+          selectedInstrument.triggerAttack("E4");
+          played = true;
+
+
+        }
+
+        return;
+      })
+
+      button10.on("release", function () {
+
+        played = false;
+        values = [];
+
+      });
+
+
+      // Sensor 11 & drukknop 11
+
+      const button11 = new five.Button({
+        pin: 10,
+        board: boards[1]
+      });
+
+      const proximity11 = new five.Proximity({
+        controller: "HCSR04",
+        pin: 11,
+        board: boards[1]
+      });
+
+
+      button11.on("press", function () {
+        console.log("button board 2 pressed");
+
+        proximity11.on("data", function () {
+          console.log(this.cm);
+          if (values.length < 1) {
+            values.push(this.cm);
+          }
+          console.log(values);
+
+        });
+
+        if (values[0] <= 10 && !played) {
+          //console.log("under 3cm");
+
+          selectedInstrument.triggerRelease();
+          selectedInstrument.toMaster();
+          selectedInstrument.triggerAttack("B3");
+
+          played = true;
+
+        } else if (values[0] >= 11 && values[0] <= 20 && !played) {
+          //console.log("between 3cm & 6cm");
+          selectedInstrument.triggerRelease();
+          selectedInstrument.toMaster();
+          selectedInstrument.triggerAttack("C3");
+          played = true;
+
+
+        } else if (values[0] >= 21 && values[0] <= 30 && !played) {
+          // console.log("between 6cm & 9cm");
+          selectedInstrument.triggerRelease();
+          selectedInstrument.toMaster();
+          selectedInstrument.triggerAttack("D3");
+          played = true;
+
+
+        } else if (values[0] >= 31 && values[0] <= 40 && !played) {
+          //console.log("between 9cm & 50cm");
+          selectedInstrument.triggerRelease();
+          selectedInstrument.toMaster();
+          selectedInstrument.triggerAttack("E3");
+          played = true;
+
+
+        } else if (values[0] >= 41 && values[0] <= 50 && !played) {
+          //console.log("between 9cm & 50cm");
+          selectedInstrument.triggerRelease();
+          selectedInstrument.toMaster();
+          selectedInstrument.triggerAttack("E4");
+          played = true;
+
+
+        }
+
+        return;
+      })
+
+      button11.on("release", function () {
+
+        played = false;
+        values = [];
+
+      });
+
+
+      // Sensor 12 & drukknop 12
+
+      const button12 = new five.Button({
+        pin: 12,
+        board: boards[1]
+      });
+
+      const proximity12 = new five.Proximity({
+        controller: "HCSR04",
+        pin: 13,
+        board: boards[1]
+      });
+
+
+      button12.on("press", function () {
+        console.log("button board 2 pressed");
+
+        proximity12.on("data", function () {
+          console.log(this.cm);
+          if (values.length < 1) {
+            values.push(this.cm);
+          }
+          console.log(values);
+
+        });
+
+        if (values[0] <= 10 && !played) {
+          //console.log("under 3cm");
+
+          selectedInstrument.triggerRelease();
+          selectedInstrument.toMaster();
+          selectedInstrument.triggerAttack("B3");
+
+          played = true;
+
+        } else if (values[0] >= 11 && values[0] <= 20 && !played) {
+          //console.log("between 3cm & 6cm");
+          selectedInstrument.triggerRelease();
+          selectedInstrument.toMaster();
+          selectedInstrument.triggerAttack("C3");
+          played = true;
+
+
+        } else if (values[0] >= 21 && values[0] <= 30 && !played) {
+          // console.log("between 6cm & 9cm");
+          selectedInstrument.triggerRelease();
+          selectedInstrument.toMaster();
+          selectedInstrument.triggerAttack("D3");
+          played = true;
+
+
+        } else if (values[0] >= 31 && values[0] <= 40 && !played) {
+          //console.log("between 9cm & 50cm");
+          selectedInstrument.triggerRelease();
+          selectedInstrument.toMaster();
+          selectedInstrument.triggerAttack("E3");
+          played = true;
+
+
+        } else if (values[0] >= 41 && values[0] <= 50 && !played) {
+          //console.log("between 9cm & 50cm");
+          selectedInstrument.triggerRelease();
+          selectedInstrument.toMaster();
+          selectedInstrument.triggerAttack("E4");
+          played = true;
+
+
+        }
+
+        return;
+      })
+
+      button12.on("release", function () {
+
+        played = false;
+        values = [];
+
+      });
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     }
 
 
-  });
+
+
+
+
+
+
+
+
+
+  }); //einde van adruino boards
 });
+
+
