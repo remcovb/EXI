@@ -7,9 +7,14 @@
   display: block;
 }
 
+body {
+  background-color: black;
+}
+
 .big-container {
   display: flex;
-
+  justify-content: center;
+  background-color: black;
 }
 
 .container {
@@ -19,6 +24,7 @@
   background-size: 100%;
   width: 100vh;
   height: 100vh;
+  justify-self: center;
 }
 
 .instrument {
